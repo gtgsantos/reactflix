@@ -6,9 +6,19 @@ function CadastroCategoria() {
     return (
         <PageDefault>
             <h1>Cadastro de Categoria</h1>
+            <form>
+                <labe>
+                    Nome da Categoria:
+                    </labe>
+                <input type="text" />
 
-            <Link to="/cadastro/categoria">
-                Cadastrar Categoria
+
+                <button>Cadastrar</button>
+
+            </form>
+
+            <Link to="/">
+                Ir para home
             </Link>
         </PageDefault>
     )
