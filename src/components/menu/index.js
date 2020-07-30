@@ -9,7 +9,7 @@ function Menu() {
     return (
         <nav className="Menu">
             <Link to="/">
-                <img class="Logo" src={Logo} alt="MagoFlix logo"/>
+                <img className="Logo" src={Logo} alt="MagoFlix logo"/>
             </Link>
 
             {/* <ButtonLink href="/" className="ButtonLink">Novo vídeo</ButtonLink> */}
