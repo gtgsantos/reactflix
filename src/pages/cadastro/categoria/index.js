@@ -51,7 +51,7 @@ function CadastroCategoria() {
     //   setCategorias([
     //     ...categorias,
     //     {
-    //       id: 1,
+    //       id: 1,>>>>
     //       nome: 'Front end',
     //       descricao: 'Descrição da categoria ',
     //       cor: '#cbd1ff',
