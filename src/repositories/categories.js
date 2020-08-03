@@ -2,7 +2,7 @@ import config from '../config';
 
 const URL_CATEGORIES = `${config.URL_BACKEND_TOP}/categorias`;
 
-function getAllCategoriesWithVideos() {
+function getAllWithVideos() {
   return fetch(`${URL_CATEGORIES}?_embed=videos`)
     .then(async (respostaDoServer) => {
       if (respostaDoServer.ok) {
@@ -15,5 +15,5 @@ function getAllCategoriesWithVideos() {
 }
 
 export default {
-  getAllCategoriesWithVideos,
+  getAllWithVideos,
 };
