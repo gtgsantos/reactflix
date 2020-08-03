@@ -2,62 +2,34 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PageDefault from '../../../components/PageDefault';
 import FormField from '../../../components/FormFields';
-import Button from '../../../components/Button';
+import useForm from '../../../hooks/useForm';
 
 function CadastroCategoria() {
   const valoresIniciais = {
-    nome: '',
+    titulo: '',
     descricao: '',
     cor: '',
   };
 
+  const { handleChange, values, clearForm } = useForm(valoresIniciais);
+
   const [categorias, setCategorias] = useState([]);
-  const [values, setValues] = useState(valoresIniciais);
 
-  function setValue(key, val) {
-    setValues({
-      ...values,
-      [key]: val, // nome: 'valor'
-    });
-  }
-
-  function handleChange(props) {
-    setValue(
-      props.target.getAttribute('name'),
-      props.target.value,
-    );
-  }
+  // ============
 
   useEffect(() => {
-    console.log('alo');
-    const URL = 'http://localhost:8080/categorias';
-
-    fetch(URL)
-      //  ---------  da pra fazer isso abaixo ------------
-      // .then((response) => response.json())
-      // .then((json) => {
-      //   console.table(json);
-      // });
-      // -------------- ou isso -------------------------
-      .then(async (response) => {
-        const resposta = await response.json();
-        setCategorias([
-          ...resposta,
-        ]);
-      });
-    // ------------------------------------------------
-
-    // setTimeout(() => {
-    //   setCategorias([
-    //     ...categorias,
-    //     {
-    //       id: 1,>>>>
-    //       nome: 'Front end',
-    //       descricao: 'Descrição da categoria ',
-    //       cor: '#cbd1ff',
-    //     },
-    //   ]);
-    // }, 4 * 1000);
+    if (window.location.href.includes('localhost')) {
+      const URL = 'http://localhost:8080/categorias';
+      fetch(URL)
+        .then(async (respostaDoServer) => {
+          if (respostaDoServer.ok) {
+            const resposta = await respostaDoServer.json();
+            setCategorias(resposta);
+            return;
+          }
+          throw new Error('Não foi possível pegar os dados');
+        });
+    }
   }, []);
 
   return (
@@ -69,29 +41,42 @@ function CadastroCategoria() {
 
       <form onSubmit={function handleSubmit(infosDoEvento) {
         infosDoEvento.preventDefault();
+
         setCategorias([
           ...categorias,
           values,
         ]);
-        setValues(valoresIniciais);
+
+        clearForm(valoresIniciais);
       }}
       >
 
         <FormField
-          label="Nome da Categoria"
+          label="Título da Categoria"
           type="text"
-          name="nome"
-          value={values.nome}
+          name="titulo"
+          value={values.titulo}
           onChange={handleChange}
         />
 
         <FormField
-          label="Descrição"
-          type="textarea"
+          label="Descrição:"
+          type="????"
           name="descricao"
           value={values.descricao}
           onChange={handleChange}
         />
+        {/* <div>
+          <label>
+            Descrição:
+            <textarea
+              type="text"
+              value={values.descricao}
+              name="descricao"
+              onChange={handleChange}
+            />
+          </label>
+        </div> */}
 
         <FormField
           label="Cor"
@@ -100,24 +85,30 @@ function CadastroCategoria() {
           value={values.cor}
           onChange={handleChange}
         />
+        {/* <div>
+          <label>
+            Cor:
+            <input
+              type="color"
+              value={values.cor}
+              name="cor"
+              onChange={handleChange}
+            />
+          </label>
+        </div> */}
 
-        <Button>Cadastrar</Button>
-
-        {categorias.length === 0 && (
-        <div>
-          Carregando...
-        </div>
-        )}
-
-        <ul>
-          {categorias.map((categoria, indice) => (
-            <li key={`${categoria}${indice}`}>
-              {categoria.nome}
-            </li>
-          ))}
-        </ul>
-
+        <button>
+          Cadastrar
+        </button>
       </form>
+
+      <ul>
+        {categorias.map((categoria, indice) => (
+          <li key={`${categoria}${indice}`}>
+            {categoria.titulo}
+          </li>
+        ))}
+      </ul>
 
       <Link to="/">
         Ir para home
